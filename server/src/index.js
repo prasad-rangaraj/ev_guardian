@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import 'dotenv/config'; // trigger nodemon restart
 import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
@@ -69,8 +69,8 @@ async function simulationTick() {
           actionTaken: data.status === 'Critical'
             ? 'CRITICAL: Relay action taken'
             : data.status === 'Warning'
-            ? 'AI Warning — monitoring elevated'
-            : 'System returned to normal',
+              ? 'AI Warning — monitoring elevated'
+              : 'System returned to normal',
           value: `Score: ${data.anomalyScore.toFixed(1)}%`,
         },
       });

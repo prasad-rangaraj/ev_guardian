@@ -9,6 +9,7 @@ import AIInsights from './pages/AIInsights';
 import FaultReports from './pages/FaultReports';
 import LiveStream from './pages/LiveStream';
 import SystemConfig from './pages/SystemConfig';
+import Research from './pages/Research';
 
 const DEMO_DATA = {
   cell1: 4.01, cell2: 4.02, cell3: 3.98, cell4: 4.00,
@@ -49,6 +50,7 @@ export default function App() {
           <Route path="/cells"    element={<CellAnalytics {...pageProps} />} />
           <Route path="/sensors"  element={<SensorMonitor {...pageProps} />} />
           <Route path="/ai"       element={<AIInsights    {...pageProps} />} />
+          <Route path="/research" element={<Research      {...pageProps} />} />
           <Route path="/faults"   element={<FaultReports  {...pageProps} />} />
           <Route path="/live"     element={<LiveStream    {...pageProps} />} />
           <Route path="/settings" element={<SystemConfig  {...pageProps} />} />

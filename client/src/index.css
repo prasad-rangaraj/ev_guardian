@@ -6,16 +6,16 @@
    ═══════════════════════════════════════════════════════ */
 
 :root {
-  /* ── Surface & Backgrounds ── */
+  /* ── Surface & Backgrounds (Light Theme) ── */
   --bg:          #f1f5f9;
   --bg-alt:      #e8eef5;
-  --surface:     #ffffff;
-  --surface-2:   #f8fafc;
+  --surface:     rgba(255, 255, 255, 0.7);
+  --surface-2:   rgba(255, 255, 255, 0.9);
   --surface-3:   #f1f5f9;
 
   /* ── Borders ── */
-  --border:      #e2e8f0;
-  --border-2:    #cbd5e1;
+  --border:      rgba(0, 0, 0, 0.1);
+  --border-2:    rgba(0, 0, 0, 0.15);
 
   /* ── Typography ── */
   --text:        #0f172a;
@@ -25,34 +25,34 @@
 
   /* ── Brand ── */
   --yellow:      #e8a900;
-  --yellow-bg:   #fef9ec;
-  --yellow-border: #fde68a;
+  --yellow-bg:   rgba(232, 169, 0, 0.1);
+  --yellow-border: rgba(232, 169, 0, 0.3);
   --yellow-text: #92400e;
 
   /* ── Status Colors ── */
   --green:       #16a34a;
-  --green-bg:    #f0fdf4;
-  --green-border:#bbf7d0;
+  --green-bg:    rgba(22, 163, 74, 0.1);
+  --green-border:rgba(22, 163, 74, 0.3);
   --green-text:  #14532d;
 
   --amber:       #d97706;
-  --amber-bg:    #fffbeb;
-  --amber-border:#fde68a;
+  --amber-bg:    rgba(217, 119, 6, 0.1);
+  --amber-border:rgba(217, 119, 6, 0.3);
   --amber-text:  #78350f;
 
   --red:         #dc2626;
-  --red-bg:      #fef2f2;
-  --red-border:  #fecaca;
+  --red-bg:      rgba(220, 38, 38, 0.1);
+  --red-border:  rgba(220, 38, 38, 0.3);
   --red-text:    #7f1d1d;
 
   --blue:        #2563eb;
-  --blue-bg:     #eff6ff;
-  --blue-border: #bfdbfe;
+  --blue-bg:     rgba(37, 99, 235, 0.1);
+  --blue-border: rgba(37, 99, 235, 0.3);
   --blue-text:   #1e3a8a;
 
   --purple:      #7c3aed;
-  --purple-bg:   #faf5ff;
-  --purple-border:#e9d5ff;
+  --purple-bg:   rgba(124, 58, 237, 0.1);
+  --purple-border:rgba(124, 58, 237, 0.3);
 
   /* ── Shadows ── */
   --shadow-xs:   0 1px 2px rgba(15,23,42,0.04);
@@ -67,6 +67,63 @@
 
   /* ── Mono Font ── */
   --mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+:root[data-theme='dark'] {
+  /* ── Surface & Backgrounds (Dark Theme) ── */
+  --bg:          #0b0f19;
+  --bg-alt:      #111827;
+  --surface:     rgba(30, 41, 59, 0.7);
+  --surface-2:   rgba(30, 41, 59, 0.9);
+  --surface-3:   #334155;
+
+  /* ── Borders ── */
+  --border:      rgba(255, 255, 255, 0.1);
+  --border-2:    rgba(255, 255, 255, 0.15);
+
+  /* ── Typography ── */
+  --text:        #f8fafc;
+  --text-2:      #e2e8f0;
+  --text-3:      #94a3b8;
+  --text-4:      #64748b;
+
+  /* ── Brand ── */
+  --yellow:      #10b981; 
+  --yellow-bg:   rgba(16, 185, 129, 0.1);
+  --yellow-border: rgba(16, 185, 129, 0.3);
+  --yellow-text: #34d399;
+
+  /* ── Status Colors ── */
+  --green:       #10b981;
+  --green-bg:    rgba(16, 185, 129, 0.1);
+  --green-border:rgba(16, 185, 129, 0.3);
+  --green-text:  #6ee7b7;
+
+  --amber:       #f59e0b;
+  --amber-bg:    rgba(245, 158, 11, 0.1);
+  --amber-border:rgba(245, 158, 11, 0.3);
+  --amber-text:  #fcd34d;
+
+  --red:         #ef4444;
+  --red-bg:      rgba(239, 68, 68, 0.1);
+  --red-border:  rgba(239, 68, 68, 0.3);
+  --red-text:    #fca5a5;
+
+  --blue:        #3b82f6;
+  --blue-bg:     rgba(59, 130, 246, 0.1);
+  --blue-border: rgba(59, 130, 246, 0.3);
+  --blue-text:   #93c5fd;
+
+  --purple:      #8b5cf6;
+  --purple-bg:   rgba(139, 92, 246, 0.1);
+  --purple-border:rgba(139, 92, 246, 0.3);
+
+  /* ── Shadows ── */
+  --shadow-xs:   0 1px 2px rgba(0,0,0,0.4);
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.3);
+  --shadow:      0 4px 6px -1px rgba(0,0,0,0.5), 0 2px 4px -2px rgba(0,0,0,0.4);
+  --shadow-md:   0 10px 15px -3px rgba(0,0,0,0.6), 0 4px 6px -4px rgba(0,0,0,0.4);
+  --shadow-lg:   0 20px 25px -5px rgba(0,0,0,0.6), 0 8px 10px -6px rgba(0,0,0,0.4);
 }
 
 /* ── Reset ── */
@@ -95,12 +152,17 @@ html, body, #root {
    ═══════════════════════════════════════════════════════ */
 .card {
   background: var(--surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 16px; /* slightly rounder for modern look */
   box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
-.card:hover { box-shadow: var(--shadow); }
+.card:hover { 
+  box-shadow: var(--shadow); 
+  transform: translateY(-2px);
+}
 .card-header {
   display: flex;
   align-items: center;
@@ -225,6 +287,8 @@ html, body, #root {
   width: var(--sidebar-w);
   height: 100vh;
   background: var(--surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-right: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
   display: flex;
@@ -269,6 +333,8 @@ html, body, #root {
 .topbar {
   height: var(--topbar-h);
   background: var(--surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
@@ -461,3 +527,14 @@ html, body, #root {
   background: var(--red-bg);
   border-color: var(--red-border);
 }
+
+/* ═══════════════════════════════════════════════════════
+   Prose (Markdown)
+   ═══════════════════════════════════════════════════════ */
+.prose p { margin-bottom: 0.75em; }
+.prose p:last-child { margin-bottom: 0; }
+.prose ul { padding-left: 1.5em; margin-bottom: 0.75em; list-style-type: disc; }
+.prose ol { padding-left: 1.5em; margin-bottom: 0.75em; list-style-type: decimal; }
+.prose strong { font-weight: 700; color: #fff; }
+.prose code { background: rgba(0,0,0,0.3); padding: 0.2em 0.4em; border-radius: 4px; font-family: var(--mono); font-size: 0.9em; }
+

@@ -1,6 +1,7 @@
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import ToastContainer from '../dashboard/ToastContainer';
+import ChatBot from '../chat/ChatBot';
 
 export default function Layout({ children, data, connected, toasts }) {
   return (
@@ -13,6 +14,7 @@ export default function Layout({ children, data, connected, toasts }) {
         </main>
       </div>
       <ToastContainer toasts={toasts} />
+      <ChatBot data={data} />
     </div>
   );
 }
