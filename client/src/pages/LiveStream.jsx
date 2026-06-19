@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Download, Database, Server, Clock } from 'lucide-react';
 
-export default function LiveStream({ data, history }) {
+export default function LiveStream({ data, history, terminalLogs = [] }) {
+
   const [health, setHealth] = useState(null);
   const [stats, setStats] = useState(null);
   const [exporting, setExporting] = useState(false);
@@ -69,18 +70,50 @@ export default function LiveStream({ data, history }) {
         </div>
       )}
 
-      <div className="card">
-        <div className="card-header">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--green)', animation: 'dot-pulse 2s ease-in-out infinite' }} />
-            <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-2)' }}>Live MQTT Payload</span>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 16, marginBottom: 20 }}>
+        {/* Live MQTT Payload */}
+        <div className="card">
+          <div className="card-header">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--green)', animation: 'dot-pulse 2s ease-in-out infinite' }} />
+              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-2)' }}>Live MQTT Payload</span>
+            </div>
+            <span className="badge badge-green">topic: battery/live</span>
           </div>
-          <span className="badge badge-green">Every 2s</span>
+          <div className="card-body">
+            <pre style={{ background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 8, padding: 16, fontFamily: 'var(--mono)', fontSize: 12, lineHeight: 1.6, color: 'var(--text-2)', overflowX: 'auto', height: 260 }}>
+{JSON.stringify({ cell1: lastReading?.cell1 ? parseFloat(lastReading.cell1.toFixed(3)) : null, cell2: lastReading?.cell2 ? parseFloat(lastReading.cell2.toFixed(3)) : null, cell3: lastReading?.cell3 ? parseFloat(lastReading.cell3.toFixed(3)) : null, cell4: lastReading?.cell4 ? parseFloat(lastReading.cell4.toFixed(3)) : null, current: lastReading?.current ? parseFloat(lastReading.current.toFixed(2)) : null, temperature: lastReading?.temperature ? parseFloat(lastReading.temperature.toFixed(1)) : null, gas: lastReading?.gas ? Math.round(lastReading.gas) : null, batteryHealth: lastReading?.batteryHealth ? parseFloat(lastReading.batteryHealth.toFixed(1)) : null, anomalyScore: lastReading?.anomalyScore ? parseFloat(lastReading.anomalyScore.toFixed(1)) : null, status: lastReading?.status, relay: lastReading?.relay }, null, 2)}
+            </pre>
+          </div>
         </div>
-        <div className="card-body">
-          <pre style={{ background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 8, padding: 16, fontFamily: 'var(--mono)', fontSize: 12, lineHeight: 1.8, color: 'var(--text-2)', overflowX: 'auto' }}>
-{JSON.stringify({ cell1: lastReading?.cell1?.toFixed(3), cell2: lastReading?.cell2?.toFixed(3), cell3: lastReading?.cell3?.toFixed(3), cell4: lastReading?.cell4?.toFixed(3), current: lastReading?.current?.toFixed(2), temperature: lastReading?.temperature?.toFixed(1), gas: Math.round(lastReading?.gas ?? 0), batteryHealth: lastReading?.batteryHealth?.toFixed(1), anomalyScore: lastReading?.anomalyScore?.toFixed(1), status: lastReading?.status, relay: lastReading?.relay, topic: 'battery/live' }, null, 2)}
-          </pre>
+
+        {/* Live Serial Console */}
+        <div className="card">
+          <div className="card-header">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--blue)', animation: 'dot-pulse 2s ease-in-out infinite' }} />
+              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-2)' }}>Live Hardware Serial Console</span>
+            </div>
+            <span className="badge badge-blue">topic: battery/terminal</span>
+          </div>
+          <div className="card-body">
+            <div style={{ background: '#0b0f19', border: '1px solid #1a2236', borderRadius: 8, padding: 16, fontFamily: 'var(--mono)', fontSize: 11, color: '#38ef7d', overflowY: 'auto', height: 260, display: 'flex', flexDirection: 'column-reverse' }}>
+              <div>
+                {terminalLogs && terminalLogs.length > 0 ? (
+                  [...terminalLogs].reverse().map((log) => (
+                    <div key={log.id} style={{ marginBottom: 4, wordBreak: 'break-all' }}>
+                      <span style={{ color: 'var(--text-4)', marginRight: 8 }}>[{log.timestamp}]</span>
+                      {log.text}
+                    </div>
+                  ))
+                ) : (
+                  <div style={{ color: 'var(--text-4)', fontStyle: 'italic', textAlign: 'center', marginTop: 100 }}>
+                    Waiting for hardware logs...
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

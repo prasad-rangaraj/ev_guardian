@@ -3,11 +3,13 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
+import mqtt from 'mqtt';
 
 import apiRoutes from './routes/index.js';
 import errorHandler from './middleware/errorHandler.js';
 import { generateReading } from './simulator.js';
 import prisma from './services/prisma.service.js';
+
 
 // ─── App Setup ────────────────────────────────────────────────
 const app = express();
@@ -35,17 +37,144 @@ app.use((req, res) => {
 
 // ─── Global Error Handler ─────────────────────────────────────
 app.use(errorHandler);
-
 // ─── Socket.io ────────────────────────────────────────────────
 io.on('connection', (socket) => {
   console.log(`[WS] Client connected: ${socket.id}`);
   socket.on('disconnect', () => console.log(`[WS] Client disconnected: ${socket.id}`));
 });
 
-// ─── Simulation Loop ──────────────────────────────────────────
-let lastStatus = 'Healthy';
+// ─── MQTT Subscriber ──────────────────────────────────────────
+const MQTT_BROKER = process.env.MQTT_BROKER || 'mqtt://broker.hivemq.com:1883';
+const MQTT_TOPIC_LIVE = 'battery/live';
+const MQTT_TOPIC_TERM = 'battery/terminal';
 
+let lastStatus = 'Healthy';
+let lastMqttTimestamp = 0;
+
+console.log(`[MQTT] Connecting to broker: ${MQTT_BROKER}`);
+const mqttClient = mqtt.connect(MQTT_BROKER);
+
+mqttClient.on('connect', () => {
+  console.log(`[MQTT] Connected to broker. Subscribing to topics: ${MQTT_TOPIC_LIVE}, ${MQTT_TOPIC_TERM}`);
+  mqttClient.subscribe([MQTT_TOPIC_LIVE, MQTT_TOPIC_TERM]);
+});
+
+mqttClient.on('message', async (topic, message) => {
+  try {
+    const msgStr = message.toString();
+
+    if (topic === MQTT_TOPIC_TERM) {
+      console.log(`[MQTT TERMINAL] ${msgStr}`);
+      io.emit('terminal:log', msgStr);
+      return;
+    }
+
+    if (topic === MQTT_TOPIC_LIVE) {
+      lastMqttTimestamp = Date.now();
+      const rawData = JSON.parse(msgStr);
+      console.log(`[MQTT LIVE]`, rawData);
+
+      const data = {
+        cell1: parseFloat(rawData.cell1 ?? 0),
+        cell2: parseFloat(rawData.cell2 ?? 0),
+        cell3: parseFloat(rawData.cell3 ?? 0),
+        cell4: parseFloat(rawData.cell4 ?? 0),
+        current: parseFloat(rawData.current ?? 0),
+        temperature: parseFloat(rawData.temperature ?? 0),
+        gas: parseFloat(rawData.gas ?? 0),
+        batteryHealth: parseFloat(rawData.batteryHealth ?? 100),
+        anomalyScore: parseFloat(rawData.anomalyScore ?? 0),
+        status: rawData.status || 'Healthy',
+        relay: rawData.relay || 'CONNECTED',
+      };
+
+      // Calculate health & anomaly locally if not provided
+      if (rawData.batteryHealth === undefined) {
+        const avgCell = (data.cell1 + data.cell2 + data.cell3 + data.cell4) / 4;
+        const cellMin = Math.min(data.cell1, data.cell2, data.cell3, data.cell4);
+        const cellMax = Math.max(data.cell1, data.cell2, data.cell3, data.cell4);
+        const imbalance = cellMax - cellMin;
+        const voltagePct = Math.max(0, Math.min(100, ((avgCell - 3.0) / (4.2 - 3.0)) * 100));
+        const imbalancePenalty = Math.max(0, Math.min(30, imbalance * 100));
+        const tempPenalty = data.temperature > 50 ? (data.temperature - 50) * 0.5 : 0;
+        data.batteryHealth = parseFloat(Math.max(0, Math.min(100, voltagePct - imbalancePenalty - tempPenalty)).toFixed(1));
+      }
+
+      if (rawData.anomalyScore === undefined) {
+        let score = 0;
+        if (data.temperature > 45) score += (data.temperature - 45) * 2.5;
+        if (data.gas > 150) score += (data.gas - 150) * 0.15;
+        const cellMin = Math.min(data.cell1, data.cell2, data.cell3, data.cell4);
+        const cellMax = Math.max(data.cell1, data.cell2, data.cell3, data.cell4);
+        const imbalance = cellMax - cellMin;
+        if (imbalance > 0.1) score += imbalance * 100;
+        data.anomalyScore = parseFloat(Math.max(0, Math.min(100, score)).toFixed(1));
+      }
+
+      if (!rawData.status) {
+        if (data.anomalyScore > 50 || data.temperature > 60 || data.gas > 400) {
+          data.status = 'Critical';
+        } else if (data.anomalyScore > 15 || data.temperature > 45 || data.gas > 200) {
+          data.status = 'Warning';
+        } else {
+          data.status = 'Healthy';
+        }
+      }
+
+      try {
+        await prisma.batteryReading.create({ data });
+
+        if (data.status !== 'Healthy' || data.anomalyScore > 20) {
+          await prisma.anomalyLog.create({
+            data: {
+              anomalyScore: data.anomalyScore,
+              status: data.status,
+              details: `HW Message | Score: ${data.anomalyScore}% | Temp: ${data.temperature}°C | Gas: ${data.gas}ppm`,
+            },
+          });
+        }
+
+        if (data.status !== lastStatus) {
+          await prisma.faultLog.create({
+            data: {
+              faultType: 'Status Change (HW)',
+              severity: data.status,
+              actionTaken: data.status === 'Critical'
+                ? 'CRITICAL: Hardware Relay Isolated'
+                : data.status === 'Warning'
+                  ? 'Warning: Hardware alert generated'
+                  : 'System returned to normal',
+              value: `Score: ${data.anomalyScore.toFixed(1)}%`,
+            },
+          });
+          lastStatus = data.status;
+        }
+
+        const count = await prisma.batteryReading.count();
+        if (count > 1000) {
+          const oldest = await prisma.batteryReading.findFirst({ orderBy: { timestamp: 'asc' } });
+          if (oldest) await prisma.batteryReading.delete({ where: { id: oldest.id } });
+        }
+      } catch (err) {
+        if (process.env.NODE_ENV !== 'production') {
+          console.warn(`[DB] Write skipped: ${err.message}`);
+        }
+      }
+
+      io.emit('battery:update', data);
+    }
+  } catch (err) {
+    console.error('[MQTT] Parsing error:', err.message);
+  }
+});
+
+// ─── Simulation Loop (Fallback) ──────────────────────────────
 async function simulationTick() {
+  // If we received an MQTT reading within the last 10 seconds, skip the simulator
+  if (Date.now() - lastMqttTimestamp < 10000) {
+    return;
+  }
+
   const data = generateReading();
 
   try {
@@ -77,14 +206,12 @@ async function simulationTick() {
       lastStatus = data.status;
     }
 
-    // Prune oldest readings — keep last 1000
     const count = await prisma.batteryReading.count();
     if (count > 1000) {
       const oldest = await prisma.batteryReading.findFirst({ orderBy: { timestamp: 'asc' } });
       if (oldest) await prisma.batteryReading.delete({ where: { id: oldest.id } });
     }
   } catch (err) {
-    // DB unavailable — still emit to socket clients
     if (process.env.NODE_ENV !== 'production') {
       console.warn(`[DB] Write skipped: ${err.message}`);
     }

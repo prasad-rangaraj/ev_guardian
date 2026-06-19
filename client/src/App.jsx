@@ -19,7 +19,7 @@ const DEMO_DATA = {
 };
 
 export default function App() {
-  const { data: liveData, connected, history } = useSocket();
+  const { data: liveData, connected, history, terminalLogs } = useSocket();
   const [toasts, setToasts] = useState([]);
 
   const data = liveData || DEMO_DATA;
@@ -40,7 +40,8 @@ export default function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [liveData?.status]);
 
-  const pageProps = { data, history };
+  const pageProps = { data, history, terminalLogs };
+
 
   return (
     <BrowserRouter>

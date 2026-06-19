@@ -7,6 +7,7 @@ export function useSocket() {
   const [data, setData] = useState(null);
   const [connected, setConnected] = useState(false);
   const [history, setHistory] = useState([]);
+  const [terminalLogs, setTerminalLogs] = useState([]);
   const socketRef = useRef(null);
 
   useEffect(() => {
@@ -24,8 +25,16 @@ export function useSocket() {
       });
     });
 
+    socket.on('terminal:log', (logLine) => {
+      setTerminalLogs((prev) => {
+        const next = [...prev, { text: logLine, timestamp: new Date().toLocaleTimeString(), id: Math.random() }];
+        return next.slice(-100); // keep last 100 log lines
+      });
+    });
+
     return () => socket.disconnect();
   }, []);
 
-  return { data, connected, history, socket: socketRef.current };
+  return { data, connected, history, terminalLogs, socket: socketRef.current };
 }
+
