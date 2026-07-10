@@ -61,7 +61,7 @@ function CellCard({ label, voltage, history, index }) {
           </span>
         </div>
         <span
-          className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide"
+          className="text-[10px] font-bold px-2 py-0.5 rounded-full  tracking-wide"
           style={{ background: `${color}18`, color, border: `1px solid ${color}25` }}
         >
           {statusLabel}

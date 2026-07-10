@@ -18,7 +18,7 @@ function StatusRow({ icon: Icon, label, value, isAlert, color, bg, border, desc 
         <Icon size={16} color={color} />
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-4)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
+        <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-4)', letterSpacing: '0.05em' }}>{label}</div>
         <div style={{ fontFamily: 'var(--mono)', fontWeight: 700, fontSize: 12, color, marginTop: 1 }}>{value}</div>
         {desc && <div style={{ fontSize: 10, color: 'var(--text-4)', marginTop: 1 }}>{desc}</div>}
       </div>
@@ -91,7 +91,7 @@ export default function ProtectionStatus({ data }) {
           marginTop: 4, padding: '12px 14px', borderRadius: 8,
           background: 'var(--yellow-bg)', border: '1px solid var(--yellow-border)',
         }}>
-          <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--yellow)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
+          <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--yellow)', letterSpacing: '0.06em', marginBottom: 8 }}>
             System Stack
           </div>
           <div style={{ fontFamily: 'var(--mono)', fontSize: 11, lineHeight: 2, color: 'var(--text-2)' }}>

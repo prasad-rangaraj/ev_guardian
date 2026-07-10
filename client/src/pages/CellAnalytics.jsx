@@ -78,17 +78,17 @@ export default function CellAnalytics({ data, history }) {
         <div style={{ display: 'flex', gap: 12 }}>
           {/* Ported Power State */}
           <div className="card" style={{ padding: '10px 16px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', background: 'var(--surface-2)', border: '1px solid var(--border)' }}>
-            <span style={{ fontSize: 11, color: 'var(--text-4)', textTransform: 'uppercase', letterSpacing: 1 }}>Pack Power</span>
+            <span style={{ fontSize: 11, color: 'var(--text-4)', letterSpacing: 1 }}>Pack Power</span>
             <span style={{ fontFamily: 'var(--mono)', fontWeight: 800, fontSize: 20, color: isCharging ? 'var(--green)' : 'var(--amber)' }}>
               {Math.abs(packPower)} kW
             </span>
           </div>
           <div className="card" style={{ padding: '10px 16px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', background: 'var(--surface-2)', border: '1px solid var(--border)' }}>
-            <span style={{ fontSize: 11, color: 'var(--text-4)', textTransform: 'uppercase', letterSpacing: 1 }}>Pack Voltage</span>
+            <span style={{ fontSize: 11, color: 'var(--text-4)', letterSpacing: 1 }}>Pack Voltage</span>
             <span style={{ fontFamily: 'var(--mono)', fontWeight: 800, fontSize: 20, color: 'var(--yellow)', textShadow: '0 0 10px rgba(234, 179, 8, 0.3)' }}>{packV.toFixed(2)}V</span>
           </div>
           <div className="card" style={{ padding: '10px 16px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', background: 'var(--surface-2)', border: '1px solid var(--border)' }}>
-            <span style={{ fontSize: 11, color: 'var(--text-4)', textTransform: 'uppercase', letterSpacing: 1 }}>Max Imbalance</span>
+            <span style={{ fontSize: 11, color: 'var(--text-4)', letterSpacing: 1 }}>Max Imbalance</span>
             <span style={{ fontFamily: 'var(--mono)', fontWeight: 800, fontSize: 20, color: parseFloat(spread) > 0.15 ? 'var(--red)' : 'var(--green)', textShadow: parseFloat(spread) > 0.15 ? '0 0 10px rgba(239, 68, 68, 0.3)' : '0 0 10px rgba(34, 197, 94, 0.3)' }}>{spread}V</span>
           </div>
         </div>
@@ -111,7 +111,7 @@ export default function CellAnalytics({ data, history }) {
               style={{
                 background: isSelected ? 'var(--surface)' : 'var(--surface-2)',
                 border: `1px solid ${borderC}`,
-                boxShadow: isSelected ? `0 10px 30px ${CELL_GLOWS[i]}` : 'var(--shadow-sm)',
+                boxShadow: isSelected ? `0 4px 15px ${CELL_GLOWS[i].replace('0.4', '0.15')}` : 'var(--shadow-sm)',
                 borderRadius: 8, padding: 20, cursor: 'pointer', position: 'relative', overflow: 'hidden',
                 transition: 'border 0.3s'
               }}
@@ -166,7 +166,7 @@ export default function CellAnalytics({ data, history }) {
                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                  <div style={{ padding: 10, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, boxShadow: 'var(--shadow-sm)' }}><Flame size={18} color={activeStats.thermalRisk > 75 ? 'var(--red)' : 'var(--amber)'}/></div>
                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                   <span style={{ fontSize: 11, color: 'var(--text-4)', fontWeight: 600, textTransform: 'uppercase' }}>Thermal Risk (dT/dt)</span>
+                   <span style={{ fontSize: 11, color: 'var(--text-4)', fontWeight: 600, }}>Thermal Risk (dT/dt)</span>
                    <span style={{ fontSize: 18, fontWeight: 800, fontFamily: 'var(--mono)', color: activeStats.thermalRisk > 75 ? 'var(--red)' : 'var(--amber)' }}>{activeStats.thermalRisk.toFixed(0)} <span style={{ fontSize: 12 }}>%</span></span>
                  </div>
                </div>
@@ -176,7 +176,7 @@ export default function CellAnalytics({ data, history }) {
                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                  <div style={{ padding: 10, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, boxShadow: 'var(--shadow-sm)' }}><Zap size={18} color="var(--blue)"/></div>
                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                   <span style={{ fontSize: 11, color: 'var(--text-4)', fontWeight: 600, textTransform: 'uppercase' }}>Internal Resistance</span>
+                   <span style={{ fontSize: 11, color: 'var(--text-4)', fontWeight: 600, }}>Internal Resistance</span>
                    <span style={{ fontSize: 18, fontWeight: 800, fontFamily: 'var(--mono)', color: 'var(--text-2)' }}>{activeStats.ir} <span style={{ fontSize: 12, color: 'var(--text-4)' }}>mΩ</span></span>
                  </div>
                </div>
@@ -186,7 +186,7 @@ export default function CellAnalytics({ data, history }) {
                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                  <div style={{ padding: 10, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, boxShadow: 'var(--shadow-sm)' }}><ShieldCheck size={18} color="var(--green)"/></div>
                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                   <span style={{ fontSize: 11, color: 'var(--text-4)', fontWeight: 600, textTransform: 'uppercase' }}>State of Health</span>
+                   <span style={{ fontSize: 11, color: 'var(--text-4)', fontWeight: 600, }}>State of Health</span>
                    <span style={{ fontSize: 18, fontWeight: 800, fontFamily: 'var(--mono)', color: 'var(--green)' }}>{activeStats.health}<span style={{ fontSize: 12, color: 'var(--green)' }}>%</span></span>
                  </div>
                </div>
@@ -196,7 +196,7 @@ export default function CellAnalytics({ data, history }) {
                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                  <div style={{ padding: 10, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, boxShadow: 'var(--shadow-sm)' }}><Cpu size={18} color="var(--purple)"/></div>
                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                   <span style={{ fontSize: 11, color: 'var(--text-4)', fontWeight: 600, textTransform: 'uppercase' }}>Passive Balancing</span>
+                   <span style={{ fontSize: 11, color: 'var(--text-4)', fontWeight: 600, }}>Passive Balancing</span>
                    <span style={{ fontSize: 15, fontWeight: 800, fontFamily: 'var(--mono)', color: activeStats.isBalancing ? 'var(--purple)' : 'var(--text-3)' }}>{activeStats.isBalancing ? 'ENGAGED' : 'STANDBY'}</span>
                  </div>
                </div>
@@ -274,7 +274,7 @@ export default function CellAnalytics({ data, history }) {
            </div>
            <div style={{ textAlign: 'right' }}>
              <div style={{ fontSize: 32, fontWeight: 900, color: 'var(--blue)', lineHeight: 1 }}>14</div>
-             <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--text-3)', textTransform: 'uppercase' }}>Months to replacement</div>
+             <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--text-3)', }}>Months to replacement</div>
            </div>
          </div>
 

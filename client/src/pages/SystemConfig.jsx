@@ -333,14 +333,14 @@ export default function SystemConfig({ data, connected }) {
                 { label: 'Hardware Client ID', value: 'cat-edge-stm32', readonly: true },
               ].map(({ label, value, key, readonly }) => (
                 <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  <label style={{ fontSize: 10, fontWeight: 800, color: 'var(--text-4)', textTransform: 'uppercase', letterSpacing: 1 }}>{label}</label>
+                  <label style={{ fontSize: 10, fontWeight: 800, color: 'var(--text-4)', letterSpacing: 1 }}>{label}</label>
                   <input className="input" value={key ? cfg[key] : value} onChange={key ? e => update(key, e.target.value) : undefined} readOnly={readonly}
                     style={{ fontFamily: 'var(--mono)', fontSize: 12, padding: '9px 14px', background: readonly ? 'var(--surface-3)' : 'var(--surface)', color: readonly ? 'var(--text-4)' : 'var(--text-2)', borderColor: readonly ? 'transparent' : 'var(--border-2)' }} />
                 </div>
               ))}
 
               <div style={{ marginTop: 6 }}>
-                <label style={{ fontSize: 10, fontWeight: 800, color: 'var(--text-4)', textTransform: 'uppercase', letterSpacing: 1, display: 'block', marginBottom: 10 }}>Data Publish Rate</label>
+                <label style={{ fontSize: 10, fontWeight: 800, color: 'var(--text-4)', letterSpacing: 1, display: 'block', marginBottom: 10 }}>Data Publish Rate</label>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                   <input type="range" min={1} max={10} value={cfg.updateInterval} onChange={e => update('updateInterval', parseInt(e.target.value))} style={{ flex: 1, accentColor: 'var(--blue)' }} />
                   <div style={{ background: 'var(--blue-bg)', color: 'var(--blue)', padding: '6px 14px', borderRadius: 8, fontFamily: 'var(--mono)', fontWeight: 900, fontSize: 14, minWidth: 54, textAlign: 'center', border: '1px solid var(--blue)30' }}>

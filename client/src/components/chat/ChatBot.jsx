@@ -23,7 +23,7 @@ function stripMarkdown(text) {
 export default function ChatBot({ data }) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: 'assistant', content: 'Hello! I am Edge Sense AI. Tap the mic and speak — I\'ll reply with voice too!' }
+    { role: 'assistant', content: 'Hello! I am EV Guardian AI. Tap the mic and speak — I\'ll reply with voice too!' }
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -206,7 +206,7 @@ export default function ChatBot({ data }) {
                   )}
                 </div>
                 <div>
-                  <h3 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>Edge Sense AI</h3>
+                  <h3 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>EV Guardian AI</h3>
                   <span style={{ fontSize: 10, fontWeight: 600, color: isCallMode ? (isListening ? 'var(--red)' : isSpeaking ? 'var(--primary)' : 'var(--green)') : 'var(--text-4)' }}>
                     {isCallMode
                       ? isListening ? '🎙️ Listening...' : isSpeaking ? '🔊 Speaking...' : isTyping ? '⏳ Thinking...' : '📞 Call Active'

@@ -49,7 +49,7 @@ function KpiCard({ label, value, sub, color, icon: Icon }) {
         <div style={{ padding: 8, borderRadius: 10, background: `${color}15`, border: `1px solid ${color}30` }}>
           <Icon size={16} color={color} />
         </div>
-        <span style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: 1 }}>{label}</span>
+        <span style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-3)', letterSpacing: 1 }}>{label}</span>
       </div>
       <div style={{ fontSize: 30, fontWeight: 900, fontFamily: 'var(--mono)', color, lineHeight: 1, textShadow: `0 0 20px ${color}40` }}>{value}</div>
       {sub && <div style={{ fontSize: 11, color: 'var(--text-4)' }}>{sub}</div>}
@@ -157,7 +157,7 @@ function FaultTimelineCard({ fault, isSelected, onClick }) {
               style={{ overflow: 'hidden' }}
             >
               <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px solid ${sev.border}` }}>
-                <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--text-4)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>System Snapshot at event</div>
+                <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--text-4)', letterSpacing: 1, marginBottom: 8 }}>System Snapshot at event</div>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   {[
                     { k: 'ACTION', v: fault.actionTaken },

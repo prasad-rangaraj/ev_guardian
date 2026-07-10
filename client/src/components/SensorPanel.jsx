@@ -91,7 +91,7 @@ function SensorCard({ icon: Icon, label, value, unit, min, max, color, sub, hist
           <span className="text-xs font-semibold" style={{ color: 'var(--text-secondary)' }}>{label}</span>
         </div>
         <span
-          className="text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider"
+          className="text-[9px] font-bold px-2 py-0.5 rounded-full  tracking-wider"
           style={{ background: `${statusColor}15`, color: statusColor, border: `1px solid ${statusColor}25` }}
         >
           {status}
@@ -178,7 +178,7 @@ export default function SensorPanel({ data, history }) {
             <span className="text-xs font-semibold" style={{ color: 'var(--text-secondary)' }}>Gas Emission</span>
           </div>
           <span
-            className="text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider animate-blink"
+            className="text-[9px] font-bold px-2 py-0.5 rounded-full  tracking-wider animate-blink"
             style={{ background: `${gasColor}15`, color: gasColor, border: `1px solid ${gasColor}25` }}
           >
             {gasLevel}

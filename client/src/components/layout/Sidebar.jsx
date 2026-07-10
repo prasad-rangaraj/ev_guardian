@@ -26,21 +26,21 @@ export default function Sidebar({ data }) {
       {/* Brand */}
       <div style={{ padding: '20px 16px 16px', borderBottom: '1px solid var(--border)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{
+          {/* <div style={{
             width: 34, height: 34, borderRadius: 9,
             background: 'linear-gradient(135deg, var(--yellow), #e07b00)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             flexShrink: 0,
           }}>
             <Zap size={18} color="#fff" strokeWidth={2.5} />
-          </div>
-          <div>
-            <div style={{ fontWeight: 800, fontSize: 15, color: 'var(--text)', lineHeight: 1.2 }}>
-              Edge Sense
-            </div>
-            <div style={{ fontSize: 10, color: 'var(--text-4)', fontWeight: 500, letterSpacing: '0.04em' }}>
-              BATTERY PLATFORM
-            </div>
+          </div> */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span style={{ fontSize: 18, fontWeight: 900, color: 'var(--text)', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+              EV Guardian AI
+            </span>
+            <span style={{ fontSize: 10, color: 'var(--text-4)', fontWeight: 700, letterSpacing: '0.05em', marginTop: 2 }}>
+              INTELLIGENT SAFETY PLATFORM
+            </span>
           </div>
         </div>
       </div>
@@ -73,7 +73,7 @@ export default function Sidebar({ data }) {
 
       {/* Navigation */}
       <nav style={{ flex: 1, padding: '12px 8px' }}>
-        <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-4)', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0 8px 8px' }}>
+        <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-4)', letterSpacing: '0.08em', padding: '0 8px 8px' }}>
           Navigation
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -98,7 +98,7 @@ export default function Sidebar({ data }) {
            
         </div>
         <div style={{ fontSize: 10, color: 'var(--text-4)', textAlign: 'center', marginTop: 2 }}>
-          v2.0.0 · Edge Sense
+          v3.0.0 · EV Guardian AI
         </div>
       </div>
     </aside>

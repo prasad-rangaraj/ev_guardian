@@ -42,7 +42,7 @@ export default function SafetyBanner({ data }) {
         </div>
 
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 10, fontWeight: 700, color, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 3 }}>
+          <div style={{ fontSize: 10, fontWeight: 700, color, letterSpacing: '0.08em', marginBottom: 3 }}>
             Predictive Safety Status
           </div>
           <div style={{ fontSize: 16, fontWeight: 800, color, fontFamily: 'var(--mono)', letterSpacing: '-0.01em' }}>
@@ -52,7 +52,7 @@ export default function SafetyBanner({ data }) {
         </div>
 
         <div style={{ textAlign: 'right', flexShrink: 0 }}>
-          <div style={{ fontSize: 10, fontWeight: 600, color: 'var(--text-4)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+          <div style={{ fontSize: 10, fontWeight: 600, color: 'var(--text-4)', letterSpacing: '0.06em' }}>
             AI Score
           </div>
           <div style={{ fontSize: 28, fontWeight: 900, color, fontFamily: 'var(--mono)', lineHeight: 1.1 }}>

@@ -38,7 +38,7 @@ function CellCard({ label, voltage, index, history }) {
           }}>
             {label}
           </div>
-          <span style={{ fontSize: 10, fontWeight: 600, color: 'var(--text-4)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Cell {index + 1}</span>
+          <span style={{ fontSize: 10, fontWeight: 600, color: 'var(--text-4)', letterSpacing: '0.05em' }}>Cell {index + 1}</span>
         </div>
         <span className={`badge ${cls}`} style={{ fontSize: 9 }}>{status}</span>
       </div>

@@ -18,9 +18,8 @@ function SensorNode({ title, dataKey, data, history, unit, critAt, warnAt, color
   const peak = Math.max(...sparkData.map(d => d.val), 0);
   const avg  = (sparkData.reduce((a, b) => a + b.val, 0) / (sparkData.length || 1));
 
-  // AI Confidence Score based on signal jitter (Ported from Mobile)
-  const jitter = sparkData.length > 2 ? Math.abs(sparkData[sparkData.length-1].val - sparkData[sparkData.length-2].val) : 0;
-  const confidence = Math.max(40, Math.min(99.9, 100 - (isCrit ? 15 : 0) - (jitter * 2)));
+  // AI Confidence Score based on Trust Engine (Fallback to old jitter math if missing)
+  const confidence = data?.trustEngine?.individual?.[dataKey] ?? Math.max(40, Math.min(99.9, 100 - (isCrit ? 15 : 0) - (sparkData.length > 2 ? Math.abs(sparkData[sparkData.length-1].val - sparkData[sparkData.length-2].val) * 2 : 0)));
 
   return (
     <motion.div whileHover={{ y: -4, scale: 1.02 }} 
@@ -38,7 +37,7 @@ function SensorNode({ title, dataKey, data, history, unit, critAt, warnAt, color
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', zIndex: 1 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <div style={{ padding: 10, borderRadius: '8px 0 8px 0', background: bgC, border: `1px solid ${c}30` }}><Icon size={18} color={c} /></div>
-          <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--text-2)', letterSpacing: 0.5, textTransform: 'uppercase' }}>{title}</span>
+          <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--text-2)', letterSpacing: 0.5, }}>{title}</span>
         </div>
         
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
@@ -213,41 +212,66 @@ function ThermalPropagation({ history }) {
   );
 }
 
-/* ── Calibration Drift indicator ─────────────────────────────── */
-function CalibrationDrift({ history }) {
-  const sensors = [
-    { key: 'temp1', label: 'Thermal Array 1', baseline: 25, unit: '°C', color: 'var(--amber)' },
-    { key: 'temp2', label: 'Thermal Array 2', baseline: 25, unit: '°C', color: 'var(--red)' },
-    { key: 'current', label: 'Current Shunt', baseline: 0, unit: 'A', color: 'var(--blue)' },
-    { key: 'gas', label: 'VOC Gas Sensor', baseline: 50, unit: 'ppm', color: 'var(--purple)' },
-    { key: 'vibration', label: 'IMU Vibration', baseline: 0, unit: 'G', color: 'var(--yellow)' },
-  ];
-  const first = history[0];
-  const last  = history[history.length - 1];
-  if (!first || !last) return <div style={{ color: 'var(--text-4)', fontSize: 12 }}>Waiting for history…</div>;
-
+/* ── FreeRTOS Task Execution Profiler ─────────────────────────────── */
+function ExecutionProfiler({ data }) {
+  const exec = data?.sensorExecution || { voltage: 0, current: 0, temperature: 0, gas: 0, total: 0 };
+  
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      {sensors.map(({ key, label, baseline, unit, color }) => {
-        const firstVal = first[key] ?? baseline;
-        const lastVal  = last[key] ?? baseline;
-        const drift = lastVal - firstVal;
-        const driftPct = Math.abs(drift) / Math.max(Math.abs(firstVal), 1) * 100;
-        const driftColor = driftPct > 20 ? 'var(--red)' : driftPct > 10 ? 'var(--amber)' : 'var(--green)';
+      {[
+        { label: 'Voltage Reading', v: exec.voltage, max: 10, color: 'var(--blue)' },
+        { label: 'Current Reading', v: exec.current, max: 300, color: 'var(--amber)' },
+        { label: 'Temperature Reading', v: exec.temperature, max: 100, color: 'var(--red)' },
+        { label: 'Gas Reading', v: exec.gas, max: 500, color: 'var(--purple)' },
+      ].map(({ label, v, max, color }) => {
+        const pct = Math.min(100, (v / max) * 100);
         return (
-          <div key={key}>
+          <div key={label}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
               <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-2)' }}>{label}</span>
-              <span style={{ fontSize: 11, fontFamily: 'var(--mono)', fontWeight: 800, color: driftColor }}>
-                {drift >= 0 ? '+' : ''}{drift.toFixed(2)}{unit}
+              <span style={{ fontSize: 11, fontFamily: 'var(--mono)', fontWeight: 800, color }}>
+                {v} ms
               </span>
             </div>
             <div style={{ height: 6, background: 'var(--surface-2)', borderRadius: 99, overflow: 'hidden' }}>
-              <div style={{ height: '100%', width: `${Math.min(100, driftPct)}%`, background: driftColor, borderRadius: 99, transition: 'width 0.5s' }} />
+              <div style={{ height: '100%', width: `${pct}%`, background: color, borderRadius: 99, transition: 'width 0.5s' }} />
             </div>
           </div>
         );
       })}
+      <div style={{ marginTop: 8, paddingTop: 12, borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between' }}>
+        <span style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-3)' }}>Total Cycle Time</span>
+        <span style={{ fontSize: 12, fontWeight: 900, fontFamily: 'var(--mono)', color: 'var(--text)' }}>{exec.total} ms</span>
+      </div>
+    </div>
+  );
+}
+
+/* ── 6-Axis IMU Module ─────────────────────────────── */
+function ImuModule({ data }) {
+  const imu = data?.imu || { accel: {x:0, y:0, z:0}, gyro: {x:0, y:0, z:0}, vibMag: 0 };
+  
+  const ImuStat = ({ label, x, y, z, unit }) => (
+    <div style={{ flex: 1, background: 'var(--surface-3)', padding: 10, borderRadius: 6, border: '1px solid var(--border)' }}>
+      <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--text-4)', marginBottom: 8, letterSpacing: 0.5 }}>{label}</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, fontFamily: 'var(--mono)' }}><span style={{ color: 'var(--red)' }}>X:</span> <span style={{ color: 'var(--text-2)', fontWeight: 600 }}>{x.toFixed(3)}{unit}</span></div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, fontFamily: 'var(--mono)' }}><span style={{ color: 'var(--green)' }}>Y:</span> <span style={{ color: 'var(--text-2)', fontWeight: 600 }}>{y.toFixed(3)}{unit}</span></div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, fontFamily: 'var(--mono)' }}><span style={{ color: 'var(--blue)' }}>Z:</span> <span style={{ color: 'var(--text-2)', fontWeight: 600 }}>{z.toFixed(3)}{unit}</span></div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', gap: 12 }}>
+        <ImuStat label="ACCELERATION" x={imu.accel.x} y={imu.accel.y} z={imu.accel.z} unit="g" />
+        <ImuStat label="GYROSCOPE" x={imu.gyro.x} y={imu.gyro.y} z={imu.gyro.z} unit="°/s" />
+      </div>
+      <div style={{ background: 'rgba(234, 179, 8, 0.1)', padding: '10px 14px', borderRadius: 6, border: '1px solid rgba(234, 179, 8, 0.3)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontSize: 11, fontWeight: 800, color: 'var(--amber)' }}>Vibration Magnitude</span>
+        <span style={{ fontSize: 13, fontWeight: 900, fontFamily: 'var(--mono)', color: 'var(--amber)' }}>{imu.vibMag.toFixed(3)} g</span>
+      </div>
     </div>
   );
 }
@@ -275,11 +299,11 @@ export default function SensorMonitor({ data, history }) {
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
           <div className="card" style={{ padding: '10px 16px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', background: 'var(--surface-2)' }}>
-            <span style={{ fontSize: 11, color: 'var(--text-4)', textTransform: 'uppercase', letterSpacing: 1 }}>Signal Integrity</span>
-            <span style={{ fontFamily: 'var(--mono)', fontWeight: 800, fontSize: 20, color: 'var(--green)' }}>{signalJitter}%</span>
+            <span style={{ fontSize: 11, color: 'var(--text-4)', letterSpacing: 1 }}>Sensor Trust Score</span>
+            <span style={{ fontFamily: 'var(--mono)', fontWeight: 800, fontSize: 20, color: 'var(--green)' }}>{data?.trustEngine?.overallScore ?? 98}%</span>
           </div>
           <div className="card" style={{ padding: '10px 16px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', background: 'var(--surface-2)' }}>
-            <span style={{ fontSize: 11, color: 'var(--text-4)', textTransform: 'uppercase', letterSpacing: 1 }}>Active Nodes</span>
+            <span style={{ fontSize: 11, color: 'var(--text-4)', letterSpacing: 1 }}>Active Nodes</span>
             <span style={{ fontFamily: 'var(--mono)', fontWeight: 800, fontSize: 20, color: 'var(--blue)' }}>5 / 5</span>
           </div>
         </div>
@@ -311,31 +335,31 @@ export default function SensorMonitor({ data, history }) {
         </div>
       </div>
 
-      {/* Row 3: Signal EMI Profile & Calibration Drift */}
+      {/* Row 3: Sensor Execution & IMU */}
       <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 20 }}>
         <div className="card">
           <div className="card-header">
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Radio size={15} color="var(--amber)" />
-              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>Signal EMI Noise Profile</span>
+              <Activity size={15} color="var(--amber)" />
+              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>6-Axis IMU Module</span>
             </div>
-            <span className="badge badge-amber">Cross-talk</span>
+            <span className="badge badge-amber">Dynamics</span>
           </div>
-          <div className="card-body" style={{ padding: 12 }}>
-            <SignalEmiProfile history={history} />
+          <div className="card-body" style={{ padding: 16 }}>
+            <ImuModule data={data} />
           </div>
         </div>
 
         <div className="card">
           <div className="card-header">
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Wifi size={15} color="var(--green)" />
-              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>Calibration Drift Matrix</span>
+              <Radio size={15} color="var(--green)" />
+              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>Sensor Execution Latency</span>
             </div>
-            <span className="badge badge-green">Session Drift</span>
+            <span className="badge badge-green">FreeRTOS Task</span>
           </div>
-          <div className="card-body">
-            <CalibrationDrift history={history} />
+          <div className="card-body" style={{ padding: 16 }}>
+            <ExecutionProfiler data={data} />
           </div>
         </div>
       </div>

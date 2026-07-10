@@ -108,7 +108,7 @@ export default function ProtectionStatus({ data }) {
           border: '1px solid rgba(245,200,66,0.15)',
         }}
       >
-        <div className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'rgba(245,200,66,0.7)' }}>
+        <div className="text-xs font-semibold  tracking-wider mb-2" style={{ color: 'rgba(245,200,66,0.7)' }}>
           System Architecture
         </div>
         <div className="font-mono text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>

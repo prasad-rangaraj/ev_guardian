@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Bell, Clock, Wifi, WifiOff } from 'lucide-react';
+import { Bell, Clock, Wifi, WifiOff, Sun, Moon } from 'lucide-react';
 
 const PAGE_TITLES = {
   '/':        { title: 'Dashboard',      sub: 'Real-time battery system overview' },
@@ -16,13 +16,30 @@ const PAGE_TITLES = {
 
 export default function Topbar({ connected, data }) {
   const [time, setTime] = useState(new Date());
+  const [isDark, setIsDark] = useState(false);
   const location = useLocation();
-  const meta = PAGE_TITLES[location.pathname] || { title: 'Edge Sense', sub: '' };
+  const meta = PAGE_TITLES[location.pathname] || { title: 'EV Guardian AI', sub: '' };
 
   useEffect(() => {
+    const saved = localStorage.getItem('theme') || 'light';
+    setIsDark(saved === 'dark');
+    if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    
     const t = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(t);
   }, []);
+
+  const toggleTheme = () => {
+    const next = !isDark;
+    setIsDark(next);
+    if (next) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  };
 
   const timeStr = time.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   const dateStr = time.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -44,6 +61,22 @@ export default function Topbar({ connected, data }) {
           <span style={{ fontSize: 12, fontFamily: 'var(--mono)', fontWeight: 500 }}>{timeStr}</span>
           <span style={{ fontSize: 11, color: 'var(--text-4)' }}>{dateStr}</span>
         </div>
+
+        {/* Divider */}
+        <div style={{ width: 1, height: 20, background: 'var(--border)' }} />
+
+        {/* Theme Toggle */}
+        <button 
+          onClick={toggleTheme}
+          style={{ 
+            background: 'none', border: 'none', cursor: 'pointer', 
+            color: 'var(--text-3)', padding: 4, display: 'flex', 
+            alignItems: 'center', justifyContent: 'center' 
+          }}
+          title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        >
+          {isDark ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
 
         {/* Divider */}
         <div style={{ width: 1, height: 20, background: 'var(--border)' }} />

@@ -84,7 +84,7 @@ export default function SafetyBanner({ data }) {
 
         {/* Text */}
         <div className="flex-1 min-w-0">
-          <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: `${cfg.color}99` }}>
+          <div className="text-xs font-semibold tracking-widest  mb-1" style={{ color: `${cfg.color}99` }}>
             {cfg.label}
           </div>
           <div
@@ -102,7 +102,7 @@ export default function SafetyBanner({ data }) {
         <div
           className="hidden md:flex flex-col items-end flex-shrink-0"
         >
-          <div className="text-xs tracking-widest uppercase font-semibold mb-1" style={{ color: 'var(--text-muted)' }}>
+          <div className="text-xs tracking-widest  font-semibold mb-1" style={{ color: 'var(--text-muted)' }}>
             AI Anomaly
           </div>
           <div
@@ -116,7 +116,7 @@ export default function SafetyBanner({ data }) {
               className="w-2 h-2 rounded-full animate-pulse"
               style={{ background: cfg.dot }}
             />
-            <span className="text-xs font-semibold uppercase" style={{ color: cfg.color }}>
+            <span className="text-xs font-semibold " style={{ color: cfg.color }}>
               {data.status}
             </span>
           </div>

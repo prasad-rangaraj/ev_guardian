@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════
-   Edge Sense — Professional Theme Design System
+   EV Guardian AI — Professional Theme Design System
    ═══════════════════════════════════════════════════════ */
 
 :root {
@@ -74,6 +74,49 @@
   --mono: 'JetBrains Mono', 'Fira Code', monospace;
 }
 
+[data-theme='dark'] {
+  --bg: #0B0F19;
+  --bg-alt: #111827;
+  --surface: #1E293B;
+  --surface-2: #334155;
+  --surface-3: #475569;
+
+  --border: #334155;
+  --border-2: #475569;
+
+  --text: #F8FAFC;
+  --text-2: #E2E8F0;
+  --text-3: #94A3B8;
+  --text-4: #64748B;
+
+  /* Brightened status colors for dark mode visibility */
+  --green-text: #34D399;
+  --green-border: rgba(52, 211, 153, 0.4);
+  --green-bg: rgba(52, 211, 153, 0.15);
+
+  --amber-text: #FBBF24;
+  --amber-border: rgba(251, 191, 36, 0.4);
+  --amber-bg: rgba(251, 191, 36, 0.15);
+
+  --red-text: #F87171;
+  --red-border: rgba(248, 113, 113, 0.4);
+  --red-bg: rgba(248, 113, 113, 0.15);
+
+  --blue-text: #60A5FA;
+  --blue-border: rgba(96, 165, 250, 0.4);
+  --blue-bg: rgba(96, 165, 250, 0.15);
+
+  --yellow-text: #60A5FA;
+  --yellow-border: rgba(96, 165, 250, 0.4);
+  --yellow-bg: rgba(96, 165, 250, 0.15);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+}
+
 /* ── Reset ── */
 *,
 *::before,
@@ -90,7 +133,7 @@ body,
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
-  font-family: sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 14px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -308,7 +351,7 @@ body,
   font-size: 12px;
   font-weight: 600;
   color: var(--text-3);
-  text-transform: uppercase;
+  text-transform: none;
   letter-spacing: 0.05em;
 }
 
@@ -441,7 +484,7 @@ body,
   font-size: 11px;
   font-weight: 700;
   color: var(--text-3);
-  text-transform: uppercase;
+  text-transform: none;
   letter-spacing: 0.06em;
   background: var(--surface-2);
   border-bottom: 1px solid var(--border);
@@ -898,20 +941,28 @@ body,
 
 .bento-item {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border: none;
+  border-radius: 20px;
   padding: 24px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.03), 0 2px 10px rgba(15, 23, 42, 0.02);
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .bento-item:hover {
-  box-shadow: var(--shadow);
-  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.03);
+}
+
+[data-theme='dark'] .bento-item {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme='dark'] .bento-item:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .bento-col-1 {
@@ -1006,7 +1057,7 @@ body,
   align-items: center;
   justify-content: space-between;
   font-size: 11px;
-  text-transform: uppercase;
+  text-transform: none;
   letter-spacing: 0.1em;
 }
 

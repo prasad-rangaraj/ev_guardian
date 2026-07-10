@@ -139,7 +139,7 @@ export default function AIInsights({ data, history }) {
                       <div style={{ fontSize: 32, fontFamily: 'var(--mono)', color: statusColor, fontWeight: 800 }}>{score.toFixed(1)}%</div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4 }}>
                         {status === 'Healthy' ? <ShieldCheck size={14} color={statusColor}/> : <AlertTriangle size={14} color={statusColor}/>}
-                        <span style={{ fontSize: 12, color: statusColor, fontWeight: 700, textTransform: 'uppercase' }}>{status} STATE</span>
+                        <span style={{ fontSize: 12, color: statusColor, fontWeight: 700, }}>{status} STATE</span>
                       </div>
                    </div>
                  </div>
@@ -182,31 +182,52 @@ export default function AIInsights({ data, history }) {
            </div>
 
            {/* Root Cause Analyzer */}
-           <div className="card" style={{ flex: 1, borderColor: score > 15 ? rcColor : 'var(--border)' }}>
+           <div className="card" style={{ flex: 1, borderColor: (data?.aiPrediction?.prediction === 'SENSOR_FAULT') ? 'var(--amber)' : (score > 15 ? rcColor : 'var(--border)') }}>
               <div className="card-header">
-                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-2)' }}>Root Cause Analyzer</span>
-                <Search size={14} color={score > 15 ? rcColor : 'var(--text-3)'} />
+                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-2)' }}>Prediction Engine</span>
+                <Search size={14} color={(data?.aiPrediction?.prediction === 'SENSOR_FAULT') ? 'var(--amber)' : (score > 15 ? rcColor : 'var(--text-3)')} />
               </div>
               <div className="card-body" style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center', justifyContent: 'center', flex: 1, padding: 16 }}>
-                <div style={{ fontSize: 11, color: 'var(--text-4)', textTransform: 'uppercase', letterSpacing: 1 }}>Primary Driver</div>
-                <div style={{ fontSize: 14, fontWeight: 800, color: rcColor, textAlign: 'center', textShadow: score > 15 ? `0 0 10px ${rcColor}55` : 'none' }}>
-                  {score > 15 ? `⚠️ ${rootCause}` : `✅ ${rootCause}`}
-                </div>
+                <div style={{ fontSize: 11, color: 'var(--text-4)', letterSpacing: 1 }}>{data?.aiPrediction?.source || 'LSTM'} Output</div>
+                
+                {data?.aiPrediction?.prediction === 'SENSOR_FAULT' ? (
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--amber)', textShadow: `0 0 10px var(--amber)55` }}>
+                      ⚠️ SENSOR HARDWARE FAULT
+                    </div>
+                    <div style={{ fontSize: 10, color: 'var(--text-4)', marginTop: 4 }}>
+                      LSTM Prediction: <span style={{ textDecoration: 'line-through' }}>{data?.aiPrediction?.battery_fault_prediction?.prediction || 'N/A'}</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ fontSize: 14, fontWeight: 800, color: rcColor, textAlign: 'center', textShadow: score > 15 ? `0 0 10px ${rcColor}55` : 'none' }}>
+                    {score > 15 ? `⚠️ ${rootCause}` : `✅ ${rootCause}`}
+                  </div>
+                )}
               </div>
            </div>
 
            {/* Predictive Maintenance (RUL) */}
-           <div className="card" style={{ flex: 1 }}>
+           <div className="card" style={{ flex: 1, opacity: data?.aiPrediction?.rul_confidence === 0 ? 0.5 : 1 }}>
               <div className="card-header">
                 <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-2)' }}>Maintenance RUL</span>
-                <Wrench size={14} color="var(--blue)" />
+                <Wrench size={14} color={data?.aiPrediction?.rul_confidence === 0 ? 'var(--text-4)' : 'var(--blue)'} />
               </div>
               <div className="card-body" style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-                <div style={{ fontSize: 11, color: 'var(--text-4)', textTransform: 'uppercase', letterSpacing: 1 }}>Est. Time to Maintenance</div>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-                  <div style={{ fontSize: 32, fontWeight: 800, color: 'var(--blue)', fontFamily: 'var(--mono)' }}>{rulDays}</div>
-                  <div style={{ fontSize: 12, color: 'var(--text-3)', fontWeight: 600 }}>Days</div>
-                </div>
+                {data?.aiPrediction?.rul_confidence === 0 ? (
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--red)' }}>DATA CORRUPTED</div>
+                    <div style={{ fontSize: 10, color: 'var(--text-4)', marginTop: 4 }}>Confidence zeroed by Trust Engine</div>
+                  </div>
+                ) : (
+                  <>
+                    <div style={{ fontSize: 11, color: 'var(--text-4)', letterSpacing: 1 }}>Est. Time to Maintenance</div>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+                      <div style={{ fontSize: 32, fontWeight: 800, color: 'var(--blue)', fontFamily: 'var(--mono)' }}>{data?.aiPrediction?.rul_cycles ?? rulDays}</div>
+                      <div style={{ fontSize: 12, color: 'var(--text-3)', fontWeight: 600 }}>{data?.aiPrediction?.rul_cycles ? 'Cycles' : 'Days'}</div>
+                    </div>
+                  </>
+                )}
               </div>
            </div>
         </div>

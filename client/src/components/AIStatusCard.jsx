@@ -44,7 +44,7 @@ function AnomalyRing({ score }) {
         >
           {score?.toFixed(1)}%
         </motion.span>
-        <span className="text-[9px] font-semibold tracking-widest uppercase" style={{ color: 'rgba(148,163,184,0.7)' }}>
+        <span className="text-[9px] font-semibold tracking-widest " style={{ color: 'rgba(148,163,184,0.7)' }}>
           Score
         </span>
       </div>

@@ -12,7 +12,7 @@ const Panel = ({ title, icon: Icon, badge, children, style }) => (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', background: 'var(--surface-2)', borderBottom: '2px solid var(--yellow)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <Icon size={15} color="var(--yellow)" />
-        <span style={{ fontSize: 12, fontWeight: 800, color: 'var(--text)', letterSpacing: 0.5, textTransform: 'uppercase' }}>{title}</span>
+        <span style={{ fontSize: 12, fontWeight: 800, color: 'var(--text)', letterSpacing: 0.5, }}>{title}</span>
       </div>
       {badge && <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--yellow)', border: '1px solid var(--yellow-border)', background: 'var(--yellow-bg)', padding: '2px 8px', borderRadius: 99, letterSpacing: 1 }}>{badge}</span>}
     </div>
@@ -97,11 +97,11 @@ function DegradationProjector({ data }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ display: 'flex', gap: 16 }}>
         <div style={{ flex: 1, background: 'var(--surface-2)', padding: '12px 16px', borderRadius: 8, border: '1px solid var(--border)' }}>
-          <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-4)', textTransform: 'uppercase', letterSpacing: 1 }}>Cycles to 80% (EOL)</div>
+          <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-4)', letterSpacing: 1 }}>Cycles to 80% (EOL)</div>
           <div style={{ fontSize: 28, fontWeight: 900, color: 'var(--amber)', fontFamily: 'var(--mono)', marginTop: 4 }}>{cyclesTo80.toLocaleString()}</div>
         </div>
         <div style={{ flex: 1, background: 'var(--surface-2)', padding: '12px 16px', borderRadius: 8, border: '1px solid var(--border)' }}>
-          <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-4)', textTransform: 'uppercase', letterSpacing: 1 }}>Current SoH</div>
+          <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-4)', letterSpacing: 1 }}>Current SoH</div>
           <div style={{ fontSize: 28, fontWeight: 900, color: health > 90 ? 'var(--green)' : 'var(--amber)', fontFamily: 'var(--mono)', marginTop: 4 }}>{health.toFixed(1)}%</div>
         </div>
       </div>
@@ -151,8 +151,8 @@ export default function Research({ data, history }) {
       {/* Page Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', background: 'var(--surface)', borderRadius: 8, border: '1px solid var(--border)', borderLeft: '4px solid var(--yellow)' }}>
         <div>
-          <h1 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: 'var(--text)', textTransform: 'uppercase', letterSpacing: 1 }}>
-            Caterpillar<span style={{ color: 'var(--yellow)' }}>®</span> Data Science Lab
+          <h1 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: 'var(--text)', letterSpacing: 1 }}>
+            <span style={{ color: 'var(--yellow)' }}>®</span> Data Science Lab
           </h1>
           <p style={{ margin: '4px 0 0', fontSize: 12, color: 'var(--text-3)', fontWeight: 600 }}>
             Sensor correlation · Cycle life projection · Forensic anomaly analysis · Scatter spectrometry
@@ -160,11 +160,11 @@ export default function Research({ data, history }) {
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
           <div style={{ padding: '8px 14px', background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 8 }}>
-            <div style={{ fontSize: 10, color: 'var(--text-4)', fontWeight: 700, textTransform: 'uppercase' }}>Dataset Size</div>
+            <div style={{ fontSize: 10, color: 'var(--text-4)', fontWeight: 700, }}>Dataset Size</div>
             <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--blue)', fontFamily: 'var(--mono)' }}>{history.length} rows</div>
           </div>
           <div style={{ padding: '8px 14px', background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 8 }}>
-            <div style={{ fontSize: 10, color: 'var(--text-4)', fontWeight: 700, textTransform: 'uppercase' }}>Cell Imbalance</div>
+            <div style={{ fontSize: 10, color: 'var(--text-4)', fontWeight: 700, }}>Cell Imbalance</div>
             <div style={{ fontSize: 18, fontWeight: 900, color: parseFloat(imbalance) > 0.1 ? 'var(--amber)' : 'var(--green)', fontFamily: 'var(--mono)' }}>{imbalance} V</div>
           </div>
         </div>
@@ -258,7 +258,7 @@ export default function Research({ data, history }) {
           ].map(({ title, status, color, text }) => (
             <div key={title} style={{ padding: 16, background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 6, borderLeft: `3px solid ${color}` }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                <span style={{ fontSize: 12, fontWeight: 800, color: 'var(--text)', textTransform: 'uppercase' }}>{title}</span>
+                <span style={{ fontSize: 12, fontWeight: 800, color: 'var(--text)', }}>{title}</span>
                 <span style={{ fontSize: 10, fontWeight: 700, color, letterSpacing: 1 }}>{status}</span>
               </div>
               <p style={{ margin: 0, fontSize: 12, color: 'var(--text-3)', lineHeight: 1.6 }}>{text}</p>

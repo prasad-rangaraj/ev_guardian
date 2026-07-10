@@ -48,7 +48,7 @@ function LogRow({ log, index }) {
       </div>
       <div className="flex-shrink-0">
         <span
-          className="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase"
+          className="text-[9px] font-bold px-1.5 py-0.5 rounded "
           style={{ background: `${cfg.color}15`, color: cfg.color }}
         >
           {log.severity}

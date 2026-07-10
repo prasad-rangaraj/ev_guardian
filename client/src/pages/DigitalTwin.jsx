@@ -380,6 +380,227 @@ function EVSkateboardPack({ data, viewMode }) {
   );
 }
 
+// ─── EV Powertrain (Motors, Inverters, HV Cables, Thermal) ───────────────────
+function EVPowertrain({ data, viewMode }) {
+  const isActive = data?.status !== 'CRITICAL';
+  
+  // Dynamic colors based on telemetry
+  const motorColor = viewMode === 'thermal' ? getThermalColor(data?.temp1 ?? 30) : (isActive ? '#9ca3af' : '#4b5563');
+  const inverterColor = viewMode === 'thermal' ? getThermalColor(data?.temp2 ?? 32) : '#cbd5e1';
+  
+  // Power flow glow (pulse based on current)
+  const current = data?.current ?? 0;
+  const isCharging = current > 0;
+  const isDischarging = current < 0;
+  // Orange for discharge, Green for charge, Gray for idle
+  const hvColor = isCharging ? '#10b981' : (isDischarging ? '#f97316' : '#64748b');
+  const hvEmissive = isCharging ? '#34d399' : (isDischarging ? '#ea580c' : '#334155');
+  const hvIntensity = Math.min(Math.abs(current) * 0.5, 2) + 0.2;
+
+  const coolantColor = viewMode === 'thermal' ? getThermalColor(data?.temp1 ?? 25) : '#3b82f6';
+  const coolantEmissive = viewMode === 'thermal' ? getThermalColor(data?.temp1 ?? 25) : '#60a5fa';
+
+  return (
+    <group position={[0, -0.88, 0]}>
+      {/* --- FRONT MOTOR UNIT --- */}
+      <group position={[0, 0, -2.8]}>
+        {/* Motor Cylinder */}
+        <mesh rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.3, 0.3, 1.2, 32]} />
+          <meshStandardMaterial color={motorColor} metalness={0.8} roughness={0.3} />
+        </mesh>
+        {/* Motor Housing Details (Stator ribs) */}
+        {[-0.4, -0.2, 0, 0.2, 0.4].map(x => (
+          <mesh key={x} position={[x, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+            <torusGeometry args={[0.31, 0.02, 16, 32]} />
+            <meshStandardMaterial color={motorColor} metalness={0.9} roughness={0.2} />
+          </mesh>
+        ))}
+        {/* Front Inverter Box */}
+        <mesh position={[0, 0.35, 0]}>
+          <boxGeometry args={[0.6, 0.2, 0.5]} />
+          <meshStandardMaterial color={inverterColor} metalness={0.7} roughness={0.2} />
+        </mesh>
+        {/* Axles connecting to wheels */}
+        <mesh rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.05, 0.05, 3.2, 16]} />
+          <meshStandardMaterial color="#64748b" metalness={0.9} roughness={0.4} />
+        </mesh>
+      </group>
+
+      {/* --- REAR MOTOR UNIT --- */}
+      <group position={[0, 0, 2.8]}>
+        <mesh rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.35, 0.35, 1.4, 32]} />
+          <meshStandardMaterial color={motorColor} metalness={0.8} roughness={0.3} />
+        </mesh>
+        {[-0.5, -0.25, 0, 0.25, 0.5].map(x => (
+          <mesh key={x} position={[x, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+            <torusGeometry args={[0.36, 0.02, 16, 32]} />
+            <meshStandardMaterial color={motorColor} metalness={0.9} roughness={0.2} />
+          </mesh>
+        ))}
+        <mesh position={[0, 0.4, 0]}>
+          <boxGeometry args={[0.7, 0.25, 0.6]} />
+          <meshStandardMaterial color={inverterColor} metalness={0.7} roughness={0.2} />
+        </mesh>
+        <mesh rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.06, 0.06, 3.2, 16]} />
+          <meshStandardMaterial color="#64748b" metalness={0.9} roughness={0.4} />
+        </mesh>
+      </group>
+
+      {/* --- HIGH VOLTAGE CABLING --- */}
+      {/* Cables from Battery Front to Front Inverter */}
+      <mesh position={[0.15, 0.1, -2.4]} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.04, 0.04, 0.8, 16]} />
+        <meshStandardMaterial color={hvColor} emissive={hvEmissive} emissiveIntensity={hvIntensity} metalness={0.3} roughness={0.5} />
+      </mesh>
+      <mesh position={[-0.15, 0.1, -2.4]} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.04, 0.04, 0.8, 16]} />
+        <meshStandardMaterial color={hvColor} emissive={hvEmissive} emissiveIntensity={hvIntensity} metalness={0.3} roughness={0.5} />
+      </mesh>
+
+      {/* Cables from Battery Rear to Rear Inverter */}
+      <mesh position={[0.15, 0.1, 2.4]} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.04, 0.04, 0.8, 16]} />
+        <meshStandardMaterial color={hvColor} emissive={hvEmissive} emissiveIntensity={hvIntensity} metalness={0.3} roughness={0.5} />
+      </mesh>
+      <mesh position={[-0.15, 0.1, 2.4]} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.04, 0.04, 0.8, 16]} />
+        <meshStandardMaterial color={hvColor} emissive={hvEmissive} emissiveIntensity={hvIntensity} metalness={0.3} roughness={0.5} />
+      </mesh>
+
+      {/* --- THERMAL MANAGEMENT (COOLING LINES) --- */}
+      {/* Radiator up front */}
+      <mesh position={[0, 0.2, -4.0]}>
+        <boxGeometry args={[1.4, 0.6, 0.1]} />
+        <meshStandardMaterial color="#1e293b" metalness={0.8} roughness={0.6} />
+      </mesh>
+      {/* Blue coolant tubes from radiator to battery */}
+      <mesh position={[0.4, -0.1, -3.0]} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.03, 0.03, 2.0, 16]} />
+        <meshStandardMaterial color={coolantColor} emissive={coolantEmissive} emissiveIntensity={0.6} metalness={0.5} roughness={0.2} transparent opacity={0.8} />
+      </mesh>
+      <mesh position={[-0.4, -0.1, -3.0]} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.03, 0.03, 2.0, 16]} />
+        <meshStandardMaterial color={coolantColor} emissive={coolantEmissive} emissiveIntensity={0.6} metalness={0.5} roughness={0.2} transparent opacity={0.8} />
+      </mesh>
+    </group>
+  );
+}
+
+// ─── EV Chassis (Frame, OBC, Suspension, Brakes) ─────────────────────────────
+function EVChassis({ data }) {
+  // Regenerative braking glow based on negative current
+  const current = data?.current ?? 0;
+  const isRegen = current < -1;
+  const brakeGlow = Math.min(Math.abs(current) * 0.2, 1);
+  const brakeColor = isRegen ? '#ff3300' : '#475569';
+  const brakeEmissive = isRegen ? '#ff0000' : '#000000';
+  const brakeIntensity = isRegen ? brakeGlow * 2 : 0;
+
+  // Charge state for OBC port
+  const isCharging = current > 1;
+  
+  return (
+    <group position={[0, -0.88, 0]}>
+      {/* --- SUBFRAMES & CRASH RAILS --- */}
+      <mesh position={[0.7, 0, 0]}>
+        <boxGeometry args={[0.1, 0.1, 8.0]} />
+        <meshStandardMaterial color="#64748b" metalness={0.9} roughness={0.4} />
+      </mesh>
+      <mesh position={[-0.7, 0, 0]}>
+        <boxGeometry args={[0.1, 0.1, 8.0]} />
+        <meshStandardMaterial color="#64748b" metalness={0.9} roughness={0.4} />
+      </mesh>
+      <mesh position={[0, 0, -2.8]}>
+        <boxGeometry args={[1.5, 0.1, 0.8]} />
+        <meshStandardMaterial color="#475569" metalness={0.8} roughness={0.5} />
+      </mesh>
+      <mesh position={[0, 0, 2.8]}>
+        <boxGeometry args={[1.5, 0.1, 0.8]} />
+        <meshStandardMaterial color="#475569" metalness={0.8} roughness={0.5} />
+      </mesh>
+
+      {/* --- SUSPENSION & BRAKES (All 4 Corners) --- */}
+      {[
+        { x: 1.6, z: -2.8 }, { x: -1.6, z: -2.8 },
+        { x: 1.6, z: 2.8 }, { x: -1.6, z: 2.8 }
+      ].map((pos, i) => (
+        <group key={i} position={[pos.x, 0, pos.z]}>
+          {/* Brake Rotor */}
+          <mesh rotation={[0, 0, Math.PI / 2]}>
+            <cylinderGeometry args={[0.25, 0.25, 0.04, 32]} />
+            <meshStandardMaterial color={brakeColor} emissive={brakeEmissive} emissiveIntensity={brakeIntensity} metalness={0.8} roughness={0.4} />
+          </mesh>
+          {/* Brake Caliper */}
+          <mesh position={[0, 0.15, 0]}>
+            <boxGeometry args={[0.12, 0.1, 0.2]} />
+            <meshStandardMaterial color={isRegen ? '#ff5500' : '#b91c1c'} metalness={0.6} roughness={0.3} emissive={isRegen ? '#ff3300' : '#000000'} emissiveIntensity={isRegen ? brakeGlow : 0} />
+          </mesh>
+          {/* Suspension Strut / Spring */}
+          <group position={[(pos.x > 0 ? -0.2 : 0.2), 0.5, 0]}>
+            <mesh>
+              <cylinderGeometry args={[0.04, 0.04, 0.8, 16]} />
+              <meshStandardMaterial color="#334155" metalness={0.8} roughness={0.2} />
+            </mesh>
+            {[-0.3, -0.1, 0.1, 0.3].map((sy, si) => (
+              <mesh key={si} position={[0, sy, 0]} rotation={[Math.PI / 2, 0, 0]}>
+                <torusGeometry args={[0.08, 0.02, 16, 32]} />
+                <meshStandardMaterial color="#eab308" metalness={0.6} roughness={0.4} />
+              </mesh>
+            ))}
+          </group>
+          {/* Control Arm */}
+          <mesh position={[(pos.x > 0 ? -0.8 : 0.8), 0, 0]}>
+            <boxGeometry args={[1.4, 0.05, 0.15]} />
+            <meshStandardMaterial color="#94a3b8" metalness={0.8} roughness={0.5} />
+          </mesh>
+        </group>
+      ))}
+
+      {/* --- ON-BOARD CHARGER (OBC) & CHARGE PORT --- */}
+      <mesh position={[0, 0.3, 1.8]}>
+        <boxGeometry args={[0.8, 0.25, 0.6]} />
+        <meshStandardMaterial color="#1e293b" metalness={0.8} roughness={0.3} />
+      </mesh>
+      <mesh position={[-0.8, 0.5, 2.4]} rotation={[0, 0, Math.PI / 4]}>
+        <cylinderGeometry args={[0.04, 0.04, 1.5, 16]} />
+        <meshStandardMaterial color="#f97316" metalness={0.3} roughness={0.5} />
+      </mesh>
+      <group position={[-1.2, 0.9, 2.8]} rotation={[0, Math.PI / 2, 0]}>
+        <mesh>
+          <cylinderGeometry args={[0.15, 0.15, 0.05, 32]} />
+          <meshStandardMaterial color="#0f172a" metalness={0.9} roughness={0.2} />
+        </mesh>
+        <mesh position={[0, 0.03, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.1, 0.015, 16, 32]} />
+          <meshStandardMaterial color={isCharging ? '#22c55e' : '#334155'} emissive={isCharging ? '#22c55e' : '#000000'} emissiveIntensity={isCharging ? 1.5 : 0} />
+        </mesh>
+      </group>
+
+      {/* --- HVAC COMPRESSOR & PUMP --- */}
+      <group position={[0, 0.3, -3.8]}>
+        <mesh position={[0.4, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.15, 0.15, 0.4, 32]} />
+          <meshStandardMaterial color="#475569" metalness={0.9} roughness={0.3} />
+        </mesh>
+        <mesh position={[-0.4, 0, 0]}>
+          <boxGeometry args={[0.3, 0.3, 0.3]} />
+          <meshStandardMaterial color="#334155" metalness={0.8} roughness={0.4} />
+        </mesh>
+      </group>
+      
+      {/* --- STEERING RACK --- */}
+      <mesh position={[0, 0.1, -2.5]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.06, 0.06, 2.8, 16]} />
+        <meshStandardMaterial color="#94a3b8" metalness={0.8} roughness={0.5} />
+      </mesh>
+    </group>
+  );
+}
+
 // ─── Car Model Scene ─────────────────────────────────────────────────────────
 function CarModel({ data, viewMode }) {
   const { scene } = useGLTF('/ev_car.glb');
@@ -431,6 +652,8 @@ function CarModel({ data, viewMode }) {
 
       <primitive object={scene} position={[0, -1.2, 0]} scale={[2.2, 2.2, 2.2]} />
       <EVSkateboardPack data={data} viewMode={viewMode} />
+      <EVPowertrain data={data} viewMode={viewMode} />
+      <EVChassis data={data} viewMode={viewMode} />
 
       <OrbitControls
         enablePan={false}
