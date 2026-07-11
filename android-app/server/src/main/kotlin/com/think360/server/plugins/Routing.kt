@@ -6,6 +6,8 @@ import io.ktor.server.response.*
 import io.ktor.server.request.*
 import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.Serializable
+import io.ktor.websocket.Frame
+import kotlinx.coroutines.launch
 
 // Temporary mock models for development
 @Serializable
@@ -80,6 +82,24 @@ fun Application.configureRouting() {
                 val profile = call.receive<UserProfile>()
                 currentProfile = profile
                 call.respond(HttpStatusCode.OK, mapOf("status" to "success"))
+            } catch (e: Exception) {
+                call.respond(HttpStatusCode.BadRequest, mapOf("error" to e.message))
+            }
+        }
+
+        post("/api/alert") {
+            try {
+                val payload = call.receiveText()
+                println("Received alert from Python: $payload")
+                
+                // Broadcast to all active websockets
+                activeWebSockets.forEach { session ->
+                    launch {
+                        session.send(Frame.Text(payload))
+                    }
+                }
+                
+                call.respond(HttpStatusCode.OK, mapOf("status" to "alert_broadcasted"))
             } catch (e: Exception) {
                 call.respond(HttpStatusCode.BadRequest, mapOf("error" to e.message))
             }

@@ -5,7 +5,10 @@ import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import io.ktor.websocket.*
 import java.time.Duration
+import java.util.Collections
 import kotlinx.coroutines.channels.ClosedReceiveChannelException
+
+val activeWebSockets = Collections.synchronizedSet<DefaultWebSocketServerSession>(LinkedHashSet())
 
 fun Application.configureSockets() {
     install(WebSockets) {
@@ -17,7 +20,7 @@ fun Application.configureSockets() {
 
     routing {
         webSocket("/ws/telemetry") {
-            // A simple echo for now, later we'll attach this to the MQTT flow
+            activeWebSockets += this
             send("Connected to telemetry stream")
             try {
                 for (frame in incoming) {
@@ -30,6 +33,8 @@ fun Application.configureSockets() {
                 println("Client disconnected")
             } catch (e: Throwable) {
                 println("WebSocket error: ${e.message}")
+            } finally {
+                activeWebSockets -= this
             }
         }
     }
