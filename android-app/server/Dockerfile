@@ -9,8 +9,8 @@ FROM eclipse-temurin:21-jre-alpine
 EXPOSE 8080
 RUN mkdir /app
 # Copy the compiled distribution from the build stage
-COPY --from=build /home/gradle/src/build/install/server /app/
+COPY --from=build /home/gradle/src/build/install/server-kotlin /app/
 
 # Run the Ktor server
 WORKDIR /app/bin
-CMD ["./server"]
+CMD ["./server-kotlin"]
