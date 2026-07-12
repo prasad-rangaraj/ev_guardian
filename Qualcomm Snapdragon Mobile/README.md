@@ -1,4 +1,4 @@
-EV Guardian — Native Android App (Qualcomm Snapdragon Mobile) 📱🔋 ==highlight== 
+EV Guardian — Native Android App (Qualcomm Snapdragon Mobile) 📱🔋 
 
 📖 Application Description
 
