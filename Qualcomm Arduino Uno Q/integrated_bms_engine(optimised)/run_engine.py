@@ -68,8 +68,8 @@ def main():
     client.on_connect = on_connect
     client.on_message = on_message
 
-    print("Connecting to MQTT Broker (ws://test.mosquitto.org:8080)...")
-    client.connect("test.mosquitto.org", 8080, 60)
+    print("Connecting to MQTT Broker (ws://broker.emqx.io:8083)...")
+    client.connect("broker.emqx.io", 8083, 60)
     
     print("Listening for real-time telemetry. Press Ctrl+C to exit.")
     client.loop_forever()

@@ -92,8 +92,8 @@ def main():
                         is_sunglasses = True
                         cv2.putText(image, "SUNGLASSES DETECTED", (L, T + int(H/2)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
                     else:
-                        # Sleep Logic: If BOTH eyes are mostly closed (< 0.3 openness)
-                        if left_eye_open < 0.3 and right_eye_open < 0.3:
+                        # Sleep Logic: If BOTH eyes are mostly closed (< 0.55 openness)
+                        if left_eye_open < 0.55 and right_eye_open < 0.55:
                             eyes_closed_frames += 1
                         else:
                             eyes_closed_frames = 0
@@ -101,8 +101,8 @@ def main():
                 except Exception as e:
                     print(f"Attr detect error: {e}")
 
-        # If eyes are closed for ~10 frames (~0.5 seconds depending on fps), trigger sleep alert
-        if eyes_closed_frames > 10:
+        # If eyes are closed for ~5 frames (faster trigger for hackathon demo), trigger sleep alert
+        if eyes_closed_frames > 5:
             is_sleeping = True
             cv2.putText(image, '!!! DRIVER SLEEPING !!!', (20, 200), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0, 0, 255), 4)
 
@@ -130,8 +130,10 @@ def main():
                             "riskLevel": "HIGH",
                             "timestamp": int(time.time() * 1000)
                         }).encode('utf-8')
-                        req = urllib.request.Request("https://ev-guardian.onrender.com/api/alert", data=payload, headers={'Content-Type': 'application/json'})
-                        urllib.request.urlopen(req)
+                        # req1 = urllib.request.Request("http://127.0.0.1:3001/api/alert", data=payload, headers={'Content-Type': 'application/json'})
+                        # urllib.request.urlopen(req1)
+                        req2 = urllib.request.Request("https://ev-guardian.onrender.com/api/alert", data=payload, headers={'Content-Type': 'application/json'})
+                        urllib.request.urlopen(req2)
                     except Exception as e:
                         print(f"[ERROR] Failed to send cloud alert: {e}")
                 

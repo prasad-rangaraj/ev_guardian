@@ -12,29 +12,29 @@
 9-->INJECTED
 10
 11    <uses-permission android:name="android.permission.INTERNET" />
-11-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:4:5-67
-11-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:4:22-64
+11-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:4:5-67
+11-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:4:22-64
 12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-12-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:5:5-79
-12-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:5:22-76
+12-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:5:5-79
+12-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:5:22-76
 13    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-13-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:6:5-79
-13-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:6:22-76
+13-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:6:5-79
+13-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:6:22-76
 14    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-14-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:7:5-81
-14-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:7:22-78
+14-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:7:5-81
+14-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:7:22-78
 15    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-15-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:8:5-71
-15-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:8:22-68
+15-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:8:5-71
+15-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:8:22-68
 16    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-16-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:9:5-77
-16-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:9:22-74
+16-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:9:5-77
+16-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:9:22-74
 17    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
-17-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:10:5-87
-17-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:10:22-84
+17-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:10:5-87
+17-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:10:22-84
 18    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-18-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:11:5-77
-18-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:11:22-74
+18-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:11:5-77
+18-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:11:22-74
 19
 20    <uses-feature
 20-->[com.google.android.gms:play-services-maps:19.0.0] C:\Users\qcwor\.gradle\caches\9.4.1\transforms\c153a564452ea04bb4f20bdf06357e17\transformed\play-services-maps-19.0.0\AndroidManifest.xml:26:5-28:35
@@ -64,75 +64,75 @@
 34-->[androidx.core:core:1.16.0] C:\Users\qcwor\.gradle\caches\9.4.1\transforms\7f2d27cc6c1e7651ceb0b7786f3c4aa6\transformed\core-1.16.0\AndroidManifest.xml:26:22-94
 35
 36    <application
-36-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:14:5-50:19
+36-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:14:5-50:19
 37        android:allowBackup="true"
-37-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:15:9-35
+37-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:15:9-35
 38        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 38-->[androidx.core:core:1.16.0] C:\Users\qcwor\.gradle\caches\9.4.1\transforms\7f2d27cc6c1e7651ceb0b7786f3c4aa6\transformed\core-1.16.0\AndroidManifest.xml:28:18-86
 39        android:debuggable="true"
 40        android:extractNativeLibs="true"
 40-->INJECTED
 41        android:icon="@mipmap/ic_launcher"
-41-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:16:9-43
+41-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:16:9-43
 42        android:label="EV Assistant"
-42-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:18:9-37
+42-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:18:9-37
 43        android:roundIcon="@mipmap/ic_launcher"
-43-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:17:9-48
+43-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:17:9-48
 44        android:supportsRtl="true"
-44-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:21:9-35
+44-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:21:9-35
 45        android:theme="@style/Theme.Think360BMS"
-45-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:19:9-49
+45-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:19:9-49
 46        android:usesCleartextTraffic="true" >
-46-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:20:9-44
+46-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:20:9-44
 47        <activity
-47-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:23:9-31:20
+47-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:23:9-31:20
 48            android:name="com.think360.bms.MainActivity"
-48-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:24:13-41
+48-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:24:13-41
 49            android:exported="true"
-49-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:25:13-36
+49-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:25:13-36
 50            android:windowSoftInputMode="adjustResize" >
-50-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:26:13-55
+50-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:26:13-55
 51            <intent-filter>
-51-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:27:13-30:29
+51-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:27:13-30:29
 52                <action android:name="android.intent.action.MAIN" />
-52-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:28:17-69
-52-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:28:25-66
+52-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:28:17-69
+52-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:28:25-66
 53
 54                <category android:name="android.intent.category.LAUNCHER" />
-54-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:29:17-77
-54-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:29:27-74
+54-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:29:17-77
+54-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:29:27-74
 55            </intent-filter>
 56        </activity>
 57
 58        <service
-58-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:33:9-36:40
+58-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:33:9-36:40
 59            android:name="com.think360.bms.data.sarvam.EVGuardianService"
-59-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:34:13-58
+59-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:34:13-58
 60            android:exported="false"
-60-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:36:13-37
+60-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:36:13-37
 61            android:foregroundServiceType="dataSync" />
-61-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:35:13-53
+61-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:35:13-53
 62
 63        <receiver
-63-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:38:9-44:20
+63-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:38:9-44:20
 64            android:name="com.think360.bms.AlertSimulationReceiver"
-64-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:39:13-52
+64-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:39:13-52
 65            android:exported="true" >
-65-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:40:13-36
+65-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:40:13-36
 66            <intent-filter>
-66-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:41:13-43:29
+66-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:41:13-43:29
 67                <action android:name="com.think360.bms.SIMULATE_ALERT" />
-67-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:42:17-74
-67-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:42:25-71
+67-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:42:17-74
+67-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:42:25-71
 68            </intent-filter>
 69        </receiver>
 70
 71        <meta-data
-71-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:46:9-48:71
+71-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:46:9-48:71
 72            android:name="com.google.android.geo.API_KEY"
-72-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:47:13-58
+72-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:47:13-58
 73            android:value="AIzaSyAou3eh3hWAWwsoeVbC5VNx4kv-GKqjBM8" />
-73-->C:\ev_guardian\ev_guardian\android-app\client\app\src\main\AndroidManifest.xml:48:13-68
+73-->C:\ev_guardian\ev_guardian\Qualcomm Snapdragon Mobile\client\app\src\main\AndroidManifest.xml:48:13-68
 74
 75        <!-- Needs to be explicitly declared on P+ -->
 76        <uses-library

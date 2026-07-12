@@ -323,7 +323,8 @@ async def lifespan(app: FastAPI):
     # Start MQTT (non-blocking, threaded)
     _start_mqtt()
 
-    # Start simulator loop (disabled to use real MQTT data)
+    # Start simulator loop (disabled to use real MQTT data from Arduino)
+    # sim_task = None
     sim_task = asyncio.create_task(_simulator_loop())
 
     _banner()
@@ -372,6 +373,13 @@ app.include_router(faults.router,    prefix="/api")
 app.include_router(anomalies.router, prefix="/api")
 app.include_router(system.router,    prefix="/api")
 app.include_router(chat.router,      prefix="/api")
+
+# ─── Alert Endpoint for Driver Monitor ───────────────
+@app.post("/api/alert")
+async def driver_alert(payload: dict):
+    print(f"[ALERT] Driver alert received: {payload}")
+    await sio.emit("driver:alert", payload)
+    return {"success": True}
 
 # 404 fallback
 @app.get("/api/{full_path:path}", include_in_schema=False)

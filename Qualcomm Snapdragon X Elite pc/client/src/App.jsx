@@ -15,7 +15,7 @@ import DigitalTwin from './pages/DigitalTwin';
 
 
 export default function App() {
-  const { data: liveData, connected, history, terminalLogs } = useSocket();
+  const { data: liveData, connected, history, terminalLogs, driverAlert } = useSocket();
   const [toasts, setToasts] = useState([]);
 
   const data = liveData;
@@ -35,6 +35,15 @@ export default function App() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [liveData?.status]);
+
+  useEffect(() => {
+    if (!driverAlert) return;
+    addToast({ 
+      type: 'critical', 
+      message: 'DRIVER DROWSINESS DETECTED', 
+      sub: `Risk Level: ${driverAlert.riskLevel || 'HIGH'} | Confidence: ${((driverAlert.confidence || 0.99) * 100).toFixed(0)}%` 
+    });
+  }, [driverAlert]);
 
   const pageProps = { data, history, terminalLogs, connected };
 

@@ -8,6 +8,7 @@ export function useSocket() {
   const [connected, setConnected] = useState(false);
   const [history, setHistory] = useState([]);
   const [terminalLogs, setTerminalLogs] = useState([]);
+  const [driverAlert, setDriverAlert] = useState(null);
   const socketRef = useRef(null);
 
   useEffect(() => {
@@ -69,9 +70,13 @@ export function useSocket() {
       });
     });
 
+    socket.on('driver:alert', (alertData) => {
+      setDriverAlert(alertData);
+    });
+
     return () => socket.disconnect();
   }, []);
 
-  return { data, connected, history, terminalLogs, socket: socketRef.current };
+  return { data, connected, history, terminalLogs, driverAlert, socket: socketRef.current };
 }
 

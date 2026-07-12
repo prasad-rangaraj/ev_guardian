@@ -67,14 +67,7 @@ export default function Dashboard({ data, history: globalHistory }) {
     }));
     setMockHistory(initialHistory);
 
-    const ws = new WebSocket('ws://localhost:3001/ws/telemetry');
-    ws.onmessage = (event) => {
-      const parsed = JSON.parse(event.data);
-      if (parsed.type === 'fault_feed') {
-        setFaults(parsed.data);
-      }
-    };
-    return () => ws.close();
+    // Removed legacy native WebSocket causing 403 errors
   }, []);
 
   const history = globalHistory && globalHistory.length > 0 ? globalHistory : mockHistory;

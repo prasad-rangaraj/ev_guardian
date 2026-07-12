@@ -16,7 +16,9 @@ from schemas.bms import ChatRequest, InsightRequest, SpeechToTextRequest, TextTo
 
 load_dotenv()
 OLLAMA_URL = "http://127.0.0.1:11434/api/chat"
-MODEL = os.getenv("LLM_MODEL", "qwen3:0.6b")
+GENIEX_URL = os.getenv("GENIEX_URL", "http://127.0.0.1:8080/v1/chat/completions")
+MODEL = os.getenv("AI_MODEL", "qwen3:0.6b")
+SARVAM_API_KEY = os.getenv("SARVAM_API_KEY")
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 

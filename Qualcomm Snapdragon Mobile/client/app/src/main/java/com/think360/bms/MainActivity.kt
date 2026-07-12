@@ -141,11 +141,23 @@ fun EVGuardianApp(viewModel: BmsViewModel) {
             }
 
             // Sarvam Edge Alert Overlay UI
+            var activeController by remember { mutableStateOf(viewModel.voiceAlertController) }
+            var activeEdgeManager by remember { mutableStateOf(viewModel.sarvamEdgeManager) }
+            
+            LaunchedEffect(Unit) {
+                while (com.think360.bms.data.sarvam.EVGuardianService.controllerInstance == null || 
+                       com.think360.bms.data.sarvam.EVGuardianService.sarvamEdgeManagerInstance == null) {
+                    kotlinx.coroutines.delay(100)
+                }
+                activeController = com.think360.bms.data.sarvam.EVGuardianService.controllerInstance!!
+                activeEdgeManager = com.think360.bms.data.sarvam.EVGuardianService.sarvamEdgeManagerInstance!!
+            }
+
             AlertOverlay(
-                controller = viewModel.voiceAlertController,
-                sarvamEdgeManager = viewModel.sarvamEdgeManager,
+                controller = activeController,
+                sarvamEdgeManager = activeEdgeManager,
                 onSimulateDriverVoice = { text ->
-                    viewModel.sarvamEdgeManager.sttManager.simulateDriverResponse(text)
+                    activeEdgeManager.sttManager.simulateDriverResponse(text)
                 }
             )
 
