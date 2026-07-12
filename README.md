@@ -4,18 +4,59 @@
 *Detect Early. Act Smart. Stay Safe.*
 
 ## 📖 Application Description
-EV Guardian is a comprehensive Battery Management System (BMS) and driver safety platform designed for electric vehicles. By leveraging advanced Edge AI capabilities (specifically optimized for Qualcomm Snapdragon NPUs and edge hardware), it provides real-time battery telemetry analysis, predictive maintenance, cell anomaly detection, and driver drowsiness monitoring. 
 
-The ecosystem is built to process the majority of critical data directly on the edge to ensure zero-latency responses, enhancing safety without relying entirely on cloud connectivity. It features:
-- A high-performance Python/FastAPI web dashboard powered by a local NPU AI integration (GenieX / Qwen 2.5).
-- A robust AI inference engine running LSTM and Autoencoder models for predictive battery health.
-- A dedicated Kotlin/Ktor mobile backend serving a native Android app for on-the-go monitoring.
+EV Guardian AI is a unified Edge AI-powered vehicle safety platform that continuously monitors the battery, driver, vehicle health, and surrounding environment to predict risks before they become failures.
+
+Unlike traditional Battery Management Systems (BMS) that only display battery parameters, EV Guardian combines predictive battery intelligence, driver monitoring, computer vision, and on-device AI reasoning into a single real-time safety ecosystem running entirely on Qualcomm Snapdragon Edge AI platforms.
+
+The platform performs AI inference locally using the CPU, GPU, and NPU, enabling ultra-low latency decisions without depending on cloud connectivity. By integrating Battery State-of-Health (SOH), Remaining Useful Life (RUL), sensor trust validation, driver drowsiness detection, blind-spot monitoring, and an on-device multilingual AI assistant, EV Guardian provides proactive safety instead of reactive alerts.
+
+### Key Capabilities
+
+- 🔋 Predictive Battery Intelligence
+  - SOH (State of Health)
+  - RUL (Remaining Useful Life)
+  - Fault Classification
+  - Cell Anomaly Detection
+  - Risk Score Prediction
+
+- 🛡 Sensor Trust Engine
+  - Validates incoming sensor data before AI inference
+  - Detects faulty or unreliable sensors
+  - Prevents incorrect safety decisions
+
+- 👁 Driver & Vision Intelligence
+  - Driver Drowsiness Detection
+  - Face Monitoring
+  - Blind Spot Detection
+  - Distance Estimation
+  - Road Hazard Awareness
+
+- 🤖 Edge AI Assistant
+  - Runs completely on-device using Qualcomm GenieX and Qwen LLM
+  - Supports multilingual voice interaction through Sarvam AI
+  - Explains battery health, alerts, and diagnostics in natural language
+
+- 🌐 Digital Twin
+  - Creates a virtual representation of battery health and vehicle status
+  - Enables predictive maintenance and intelligent diagnostics
+
+- ⚡ Edge AI Processing
+  - AI models execute locally on Qualcomm Snapdragon platforms
+  - Utilizes CPU, GPU, and NPU acceleration
+  - Supports real-time inference with minimal latency
+  - Continues operating even without internet connectivity
+
+EV Guardian transforms isolated vehicle monitoring systems into a unified intelligent safety platform capable of predicting failures, protecting drivers, and improving EV reliability through Edge AI.
+---
 
 ## 👥 Team Members
-- **[Your Name 1]** - [Your Email 1]
-- **[Your Name 2]** - [Your Email 2]
-- **[Your Name 3]** - [Your Email 3]
-*(Please update this section with your actual team details)*
+
+- **Monishwaran R** — [monishwaran96@gmail.com](mailto:monishwaran96@gmail.com)
+- **Prasad Rangaraj** — [prasad.rangaraj@gmail.com](mailto:prasad.rangaraj@gmail.com)
+- **Boomika S** — [boomikas2007@gmail.com](mailto:boomikas2007@gmail.com)
+- **Sujan D** — [sujanduraisujan@gmail.com](mailto:sujanduraisujan@gmail.com)
+- **Priya Dharshini  S** — [pavipriya507@gmail.com](mailto:pavipriya507@gmail.com)
 
 ---
 
@@ -45,7 +86,7 @@ python -m venv venv
 pip install -r requirements.txt
 
 # Start the Python server
-uvicorn main:socket_app --reload --port 3001
+uvicorn main:app --reload --port 3001
 ```
 
 To run the React Frontend Dashboard:
@@ -83,7 +124,7 @@ python run_engine.py
 ```
 *(The BMS Engine will automatically listen to MQTT data over WebSocket and run real-time inference on the edge).*
 
-### 3. Native Android App (`Qualcomm Snapdragon Mobile`)
+### 3. Native Android App (`OnePlus 15`)
 To run the Android app companion:
 
 1. Open **Android Studio**.
