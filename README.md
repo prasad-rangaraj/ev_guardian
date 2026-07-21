@@ -292,7 +292,7 @@ Wakes up the local NPU to listen for diagnostic queries offline:
    cd "Qualcomm Snapdragon Mobile/server"
    ./gradlew run
    ```
-2. Build and run the Android Application on your Snapdragon device via Android Studio.
+2. Build and run the Android Application on your Snapdragon device via Android Studio..
 
 ---
 
